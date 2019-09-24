@@ -14,18 +14,27 @@ app.use(expressip().getIpInfoMiddleware);
 
 app.get('/', (req, res) => {
     res.sendfile('index.html');
-
-    console.log(req.ips);
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    console.log(ip);
     MongoClient.connect(mongoURL, function(err, client) {
         const db = client.db(dbName);
-        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-
         db.collection('Visitor').insertOne({
             IP: ip,
             //city: req.getIpInfoMiddleware.city,
             //country: req.getMaxListeners.country,
             createdAt: new Date()
         });
+        client.close();
+    });
+});
+
+app.get('/stats', (req,res) => {
+    MongoClient.connect(mongoURL, function(err, client) {
+        const db = client.db(dbName);
+
+        const data = db.collection('Visitor').find();
+
+        res.send(data);
         client.close();
     });
 });
