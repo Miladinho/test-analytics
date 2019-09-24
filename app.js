@@ -36,7 +36,7 @@ app.get('/stats', (req,res) => {
         let data = []
         cursor.each((err,doc) => {
             if (err) console.log(err);
-            console.log(doc);
+            data.push(doc);
         });
         console.log(data);
         res.send("hi");
