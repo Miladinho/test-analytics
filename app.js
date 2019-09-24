@@ -33,8 +33,8 @@ app.get('/stats', (req,res) => {
         const db = client.db(dbName);
 
         const data = db.collection('Visitor').find();
-
-        res.send(data);
+        console.log(data);
+        res.send("hi");
         client.close();
     });
 });
