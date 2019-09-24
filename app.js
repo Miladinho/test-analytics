@@ -32,8 +32,9 @@ app.get('/stats', (req,res) => {
     MongoClient.connect(mongoURL, function(err, client) {
         const db = client.db(dbName);
 
-        const cursor = db.collection('Visitor').find();
-        cursor.toArray().then(() => res.send())
+        const cursor = db.collection('Visitor').find().toArray();
+        console.log(cursor);
+        res.send(cursor);
         client.close();
     });
 });
