@@ -33,8 +33,7 @@ app.get('/stats', (req,res) => {
         const db = client.db(dbName);
 
         const cursor = db.collection('Visitor').find();
-        console.log(cursor.toArray());
-        res.send(cursor.toArray());
+        cursor.toArray().then(() => res.send())
         client.close();
     });
 });
