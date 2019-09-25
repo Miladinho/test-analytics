@@ -39,6 +39,10 @@ app.get('/stats', (req,res) => {
     });
 });
 
+app.get('/andrea', (req,res) => {
+    res.send("Hello Andrea!");
+});
+
 const getStats = () => {
     MongoClient.connect(mongoURL, function(err, client) {
         const db = client.db(dbName);
