@@ -29,6 +29,17 @@ app.get('/', (req, res) => {
 });
 
 app.get('/stats', (req,res) => {
+    MongoClient.connect(mongoURL, async function(err, client) {
+        const db = client.db(dbName);
+        const cursor = db.collection('Visitor').find();
+        const data = await cursor.toArray();
+        console.log(data);
+        res.send(data);
+        client.close();
+    });
+});
+
+const getStats = () => {
     MongoClient.connect(mongoURL, function(err, client) {
         const db = client.db(dbName);
 
@@ -36,9 +47,8 @@ app.get('/stats', (req,res) => {
         console.log(cursor);
         res.send(cursor);
         client.close();
-    });
-});
-
+    }); 
+}
 app.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });
